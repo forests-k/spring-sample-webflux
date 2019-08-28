@@ -34,7 +34,11 @@ management:
     port: 8080
   endpoints:
     web:
-      base-path: /actuator
+      base-path: /manage
+      expose: health
+  endpoint:
+    shutdown:
+      enabled: false
 
 logging:
   level:

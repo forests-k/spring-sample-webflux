@@ -10,9 +10,9 @@ import org.springframework.web.reactive.function.server.router
 class UserRouter(private val userHandler: UserHandler) {
 
     @Bean
-    fun userRouter() = router {
+    fun uuserRouter() = router {
         accept(APPLICATION_JSON_UTF8).nest {
-            GET("/user/", userHandler::findAll)
+            GET("/user", userHandler::findAll)
             GET("/user/{id}", userHandler::findById)
         }
     }
