@@ -18,7 +18,7 @@ class UserHandler(private val userService: UserService) {
                     .body<User>(userService.findAll())
 
     fun findById(request: ServerRequest): Mono<ServerResponse> {
-        val id: Int = Integer.parseInt(request.pathVariable("id"))
+        val id = Integer.parseInt(request.pathVariable("id"))
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body<User>(userService.findById(id))
