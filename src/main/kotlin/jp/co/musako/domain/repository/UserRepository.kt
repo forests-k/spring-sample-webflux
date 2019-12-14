@@ -1,12 +1,12 @@
 package jp.co.musako.domain.repository
 
-import jp.co.musako.domain.entity.User
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
+import jp.co.musako.domain.entity.*
+import org.springframework.data.jpa.repository.*
+import org.springframework.stereotype.*
 import java.util.*
 
 @Repository
-interface UserRepository : JpaRepository<User, Int> {
+interface UserRepository : JpaRepository<UsersEntity, Long> {
 
-    fun findByMail(mailAddress: String): Optional<User>
+    fun findByMail(mailAddress: String): Optional<UsersEntity>
 }

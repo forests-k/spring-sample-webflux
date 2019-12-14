@@ -1,14 +1,18 @@
 package jp.co.musako.domain.service
 
-import jp.co.musako.domain.repository.UserRepository
-import org.springframework.stereotype.Service
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+import jp.co.musako.domain.entity.*
+import jp.co.musako.domain.model.*
+import reactor.core.publisher.*
 
-@Service
-class UserService(val userRepository: UserRepository) {
+interface UserService {
 
-    fun findById(id: Int) = Mono.justOrEmpty(userRepository.findById(id))
+    fun findById(id: Long): Mono<User>
 
-    fun findAll() = Flux.fromIterable(userRepository.findAll())
+    fun findAll(): Flux<User>
+
+    fun create(user: UsersEntity): Mono<User>
+
+    fun update(id: Long, monoUser: Mono<UsersEntity>): Mono<User>
+
+    fun delete(id: Long)
 }

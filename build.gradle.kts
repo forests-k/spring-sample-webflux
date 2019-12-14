@@ -1,7 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
-    id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
+    id("org.springframework.boot") version "2.2.1.BUILD-SNAPSHOT"
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
     kotlin("jvm") version "1.3.50"
     kotlin("plugin.spring") version "1.3.50"
@@ -16,17 +16,24 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+    jcenter()
 	maven { url = uri("https://repo.spring.io/milestone") }
 	maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    //implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    implementation("org.projectreactor:reactor-spring:1.0.1.RELEASE")
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
 
 	implementation("javax.xml.bind:jaxb-api:2.3.0")
 	implementation("com.sun.xml.bind:jaxb-core:2.3.0")
@@ -53,3 +60,9 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
+
+//kotlin {
+//    experimental {
+//        coroutines = "enable"
+//    }
+//}

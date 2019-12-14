@@ -22,3 +22,12 @@
 ./gradlew clean build
 java -jar build/libs/spring-sample-webflux-0.0.1-SNAPSHOT.jar
 ```
+
+## エンドポイント
+| エンドポイント                   | メソッド | 用途 |
+|:--------------------------------:|:-------|:------------|
+| http://localhost:8080/users      | GET    | ユーザー一覧情報取得  |
+| http://localhost:8080/users/{id} | GET    | ユーザー情報取得  |
+| http://localhost:8080/users      | POST   | ユーザー情報登録 |
+| http://localhost:8080/users/{id} | PUT    | ユーザー情報登録 |
+| http://localhost:8080/users/{id} | DELETE | ユーザー情報登録 |

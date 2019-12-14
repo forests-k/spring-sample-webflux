@@ -10,8 +10,8 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://endpoint/db
-    username: username
+    url: jdbc:mysql://localhost:3306/prototype?currentSchema=prototype
+    username: user
     password: password
 
   jpa:
@@ -35,12 +35,14 @@ management:
   endpoints:
     web:
       base-path: /manage
-      expose: health
-  endpoint:
-    shutdown:
-      enabled: false
+      expose:
+        include: '*'
 
 logging:
   level:
     org.springframework: INFO
     root: INFO
+
+address:
+  url: http://zipcloud.ibsnet.co.jp/api/search
+  limit: 1
