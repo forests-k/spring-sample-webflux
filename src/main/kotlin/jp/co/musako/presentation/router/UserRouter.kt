@@ -9,14 +9,17 @@ import org.springframework.web.reactive.function.server.*
 @ComponentScan
 class UserRouter(private val userHandler: UserHandler) {
 
-    @Bean
-    fun apiRouter() = router {
-        accept(MediaType.APPLICATION_JSON).nest {
-            GET("/users", userHandler::findAll)
-            GET("/users/{id}", userHandler::findById)
-            POST("/users", userHandler::create)
-            PUT("/users/{id}", userHandler::update)
-            DELETE("/users/{id}", userHandler::delete)
-        }
+  @Bean
+  fun apiRouter() = router {
+    "/api/v1".nest {
+      accept(MediaType.APPLICATION_JSON).nest {
+        GET("/users", userHandler::findAll)
+        GET("/users/{id}", userHandler::findById)
+        POST("/users", userHandler::create)
+        PUT("/users/{id}", userHandler::update)
+        DELETE("/users/{id}", userHandler::delete)
+      }
     }
+
+  }
 }

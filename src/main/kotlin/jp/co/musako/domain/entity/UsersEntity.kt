@@ -24,19 +24,15 @@ data class UsersEntity(
         @Column(name = "birthdate")
         var birthdate: LocalDate,
 
-        @Column(name = "create_user_id")
-        var createUserId: Long,
-
         @Column(name = "create_timestamp")
         var createTimestamp: LocalDateTime
 ) : Serializable {
 
-    fun convertToUser() = User(
-            id = id,
-            mail = mail,
-            gender = gender,
-            birthdate = birthdate,
-            createUserId = createUserId,
-            createTimestamp = createTimestamp
-    )
+        fun convertToUser() = User(
+                id = id,
+                mail = mail,
+                gender = gender,
+                birthdate = birthdate,
+                createTimestamp = createTimestamp
+        )
 }

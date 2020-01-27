@@ -12,45 +12,45 @@ import reactor.core.publisher.*
 @Component
 class UserHandler(private val userService: UserService) {
 
-    fun findAll(request: ServerRequest): Mono<ServerResponse> =
-            ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body<User>(userService.findAll())
-
-    fun findById(request: ServerRequest): Mono<ServerResponse> =
-            ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body<User>(userService.findById(request.pathVariable("id").toLong()))
-
-    fun create(request: ServerRequest): Mono<ServerResponse> =
-            request.bodyToMono(UsersEntity::class.java)
-                    .flatMap { user ->
-                        ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(userService.create(user))
-                    }.switchIfEmpty(ServerResponse.badRequest().build())
-
-    fun update(request: ServerRequest): Mono<ServerResponse> {
-
-        val body = request.body(BodyExtractors.toMono(UsersEntity::class.java))
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-                .body(userService.update(request.pathVariable("id").toLong(), body))
-                .switchIfEmpty(ServerResponse.badRequest().build())
-    }
-
-    /**
-    request.bodyToMono<UsersEntity>()
-    .flatMap { user ->
+  fun findAll(request: ServerRequest): Mono<ServerResponse> =
     ServerResponse.ok()
-    .contentType(MediaType.APPLICATION_JSON)
-    .body(userService.update(request.pathVariable("id").toLong(), user))
-    }.switchIfEmpty(ServerResponse.badRequest().build())
-     */
+      .contentType(MediaType.APPLICATION_JSON)
+      .body<User>(userService.findAll())
 
-    fun delete(request: ServerRequest): Mono<ServerResponse> {
-        userService.delete(request.pathVariable("id").toLong())
-        return ServerResponse.ok().build()
-    }
+  fun findById(request: ServerRequest): Mono<ServerResponse> =
+    ServerResponse.ok()
+      .contentType(MediaType.APPLICATION_JSON)
+      .body<User>(userService.findById(request.pathVariable("id").toLong()))
+
+  fun create(request: ServerRequest): Mono<ServerResponse> =
+    request.bodyToMono(UsersEntity::class.java)
+      .flatMap { user ->
+        ServerResponse.ok()
+          .contentType(MediaType.APPLICATION_JSON)
+          .body(userService.create(user))
+      }.switchIfEmpty(ServerResponse.badRequest().build())
+
+  fun update(request: ServerRequest): Mono<ServerResponse> {
+
+    val body = request.body(BodyExtractors.toMono(UsersEntity::class.java))
+    return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+      .body(userService.update(request.pathVariable("id").toLong(), body))
+      .switchIfEmpty(ServerResponse.badRequest().build())
+  }
+
+  /**
+  request.bodyToMono<UsersEntity>()
+  .flatMap { user ->
+  ServerResponse.ok()
+  .contentType(MediaType.APPLICATION_JSON)
+  .body(userService.update(request.pathVariable("id").toLong(), user))
+  }.switchIfEmpty(ServerResponse.badRequest().build())
+   */
+
+  fun delete(request: ServerRequest): Mono<ServerResponse> {
+    userService.delete(request.pathVariable("id").toLong())
+    return ServerResponse.noContent().build()
+  }
 
 
 }

@@ -10,11 +10,11 @@ import reactor.core.publisher.*
 @Component
 class AddressHandler(private val addressService: AddressService) {
 
-    fun findAddressByZipCode(request: ServerRequest): Mono<ServerResponse> {
-        val zipcode = request.queryParam("zipcode").get()
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body<Address>(addressService.findAddressByZipCode(zipcode))
-    }
+  fun findAddressByZipCode(request: ServerRequest): Mono<ServerResponse> {
+    val zipcode = request.queryParam("zipcode").get()
+    return ServerResponse.ok()
+      .contentType(MediaType.APPLICATION_JSON)
+      .body<Address>(addressService.findAddressByZipCode(zipcode))
+  }
 
 }
