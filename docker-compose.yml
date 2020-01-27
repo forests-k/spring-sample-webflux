@@ -1,0 +1,41 @@
+version: "3.4"
+
+services:
+    proxy:
+        build: ./docker/proxy
+        container_name: webflux-sample-reverse-proxy
+        ports:
+            - "80:80"
+        volumes:
+            - ./docker/proxy/server.conf/default.conf:/etc/nginx/conf.d/default.conf
+    db:
+        build: ./docker/db
+        container_name: webflux-sample-db
+        environment: 
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "password"
+            PGPASSWORD: "password"
+            POSTGRES_DB: "webflux"
+            DATABASE_HOST: "localhost"
+            POSTGRES_INITDB_ARGS:  "--encoding=UTF-8 --locale=ja_JP.UTF-8"
+        tty: true
+        stdin_open: true
+        ports:
+            - "25432:5432"
+        expose:
+            - "5432"
+        volumes: 
+            - ./docker/db/data:/var/lib/postgresql
+            - ./docker/db/postgres_data:/postgres_data
+    app:
+        build: ./spring-sample-webflux
+        container_name: webflux-sample-app
+        ports:
+            - "8081:8080"
+        expose:
+            - "8080"
+        depends_on: 
+            - db
+        volumes: 
+            - ./spring-sample-webflux:/app
+            - ./docker/app/log:/var/log/app

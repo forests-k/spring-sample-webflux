@@ -1,0 +1,88 @@
+################################################
+#
+# application.yml
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+#
+################################################
+spring:
+  profiles:
+    active: develop
+---
+spring:
+  profiles: develop
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:25432/webflux
+    username: postgres
+    password: password
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      show-sql: true
+      ddl-auto: update
+      format_sql: trues
+      use_sql_comments: true
+      generate_statistics: false
+
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    serialization:
+      write_dates_as_timestamps: false
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      base-path: /api/v1/admin
+      expose:
+        include: '*'
+
+logging:
+  level:
+    jp.co.musako: DEBUG
+    org.springframework: INFO
+    org.hibernate: INFO
+    root: INFO
+
+---
+spring:
+  profiles: docker
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/webflux
+    username: postgres
+    password: password
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      show-sql: true
+      ddl-auto: update
+      format_sql: trues
+      use_sql_comments: true
+      generate_statistics: false
+
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    serialization:
+      write_dates_as_timestamps: false
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      base-path: /api/v1/admin
+      expose:
+        include: '*'
+
+logging:
+  level:
+    jp.co.musako: INFO
+    org.springframework: INFO
+    org.hibernate: INFO
+    root: INFO
