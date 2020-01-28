@@ -3,10 +3,10 @@ package jp.co.musako.domain.service
 import jp.co.musako.domain.entity.*
 import jp.co.musako.domain.model.*
 import jp.co.musako.domain.repository.*
+import jp.co.musako.domain.type.*
 import org.springframework.security.crypto.password.*
 import org.springframework.stereotype.*
 import reactor.core.publisher.*
-import java.time.*
 import javax.transaction.*
 
 @Service
@@ -23,56 +23,51 @@ class UserServiceImpl(
     Flux.fromIterable(userRepository.findAll().toList().map { users -> users.convertToUser() })
 
   @Transactional
-  override fun create(user: UsersEntity): Mono<User> {
-    val now = LocalDateTime.now()
-    user.createTimestamp = now
-
-    user.password = passwordEncoder.encode(user.password)
-
-    val currentUser = userRepository.save(user)
+  override fun create(signUpUser: SignUpUser): Mono<User> {
+    val currentUser = userRepository.save(
+      UsersEntity(
+        mail = signUpUser.mail!!,
+        gender = signUpUser.gender!!,
+        password = passwordEncoder.encode(signUpUser.password),
+        birthdate = signUpUser.birthdate!!
+      )
+    )
 
     // 変更履歴を登録
     userHistoryRepository.save(
       UsersHistoryEntity(
-        userId = currentUser.id,
+        userId = currentUser.id!!,
         mail = currentUser.mail,
         gender = currentUser.gender,
         birthdate = currentUser.birthdate,
         password = currentUser.password,
-        createTimestamp = now,
-        note = "create user"
+        note = Note.CREATE.type
       )
     )
-
     return Mono.just(currentUser.convertToUser())
   }
 
   @Transactional
-  override fun update(id: Long, monoUser: Mono<UsersEntity>): Mono<User> {
+  override fun update(id: Long, monoUser: Mono<User>): Mono<User> {
     val currentUser = userRepository.findById(id).orElseThrow { IllegalArgumentException() }
-
-    val now = LocalDateTime.now()
 
     // 変更内容を登録
     monoUser.subscribe { user ->
       currentUser.mail = user.mail
       currentUser.gender = user.gender
       currentUser.birthdate = user.birthdate
-      currentUser.createTimestamp = now
-
     }
     userRepository.save(currentUser)
 
     // 変更履歴を登録
     userHistoryRepository.save(
       UsersHistoryEntity(
-        userId = currentUser.id,
+        userId = currentUser.id!!,
         mail = currentUser.mail,
         gender = currentUser.gender,
         birthdate = currentUser.birthdate,
         password = currentUser.password,
-        createTimestamp = now,
-        note = "edit user"
+        note = Note.UPDATE.type
       )
     )
 
@@ -83,20 +78,17 @@ class UserServiceImpl(
   override fun delete(id: Long) {
     val currentUser = userRepository.findById(id).orElseThrow { IllegalArgumentException() }
 
-    val now = LocalDateTime.now()
-
     // 変更履歴を登録
     userHistoryRepository.save(
       UsersHistoryEntity(
-        userId = currentUser.id,
+        userId = currentUser.id!!,
         mail = currentUser.mail,
         gender = currentUser.gender,
         birthdate = currentUser.birthdate,
-        createTimestamp = now,
-        note = "delete user"
+        password = currentUser.password,
+        note = Note.DELETE.type
       )
     )
-
     userRepository.deleteById(id)
   }
 }

@@ -61,6 +61,12 @@ tasks.withType<KotlinCompile> {
   }
 }
 
+flyway {
+  url = "jdbc:postgresql://127.0.0.1:25432/webflux"
+  user = "postgres"
+  password = "password"
+}
+
 //kotlin {
 //    experimental {
 //        coroutines = "enable"

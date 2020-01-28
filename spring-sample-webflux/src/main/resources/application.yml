@@ -47,6 +47,9 @@ logging:
     org.hibernate: INFO
     root: INFO
 
+server:
+  port: 8081
+
 ---
 spring:
   profiles: docker
@@ -86,3 +89,6 @@ logging:
     org.springframework: INFO
     org.hibernate: INFO
     root: INFO
+
+server:
+  port: 8080

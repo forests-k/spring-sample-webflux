@@ -8,6 +8,8 @@ services:
             - "80:80"
         volumes:
             - ./docker/proxy/server.conf/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on: 
+            - app
     db:
         build: ./docker/db
         container_name: webflux-sample-db
@@ -25,13 +27,11 @@ services:
         expose:
             - "5432"
         volumes: 
-            - ./docker/db/data:/var/lib/postgresql
+            - ./docker/db/data:/var/lib/postgresql/data
             - ./docker/db/postgres_data:/postgres_data
     app:
         build: ./spring-sample-webflux
         container_name: webflux-sample-app
-        ports:
-            - "8081:8080"
         expose:
             - "8080"
         depends_on: 
