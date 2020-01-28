@@ -33,7 +33,7 @@ services:
         build: ./spring-sample-webflux
         container_name: webflux-sample-app
         expose:
-            - "8080"
+            - "8082"
         depends_on: 
             - db
         volumes: 

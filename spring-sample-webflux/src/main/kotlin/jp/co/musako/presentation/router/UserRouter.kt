@@ -6,7 +6,6 @@ import org.springframework.http.*
 import org.springframework.web.reactive.function.server.*
 
 @Configuration
-@ComponentScan
 class UserRouter(private val userHandler: UserHandler) {
 
   @Bean
@@ -20,6 +19,5 @@ class UserRouter(private val userHandler: UserHandler) {
         DELETE("/users/{id}", userHandler::delete)
       }
     }
-
   }
 }

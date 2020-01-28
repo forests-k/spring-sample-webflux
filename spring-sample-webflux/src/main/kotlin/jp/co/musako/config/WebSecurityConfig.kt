@@ -48,29 +48,36 @@ class WebSecurityConfig(
     serverSecurityContextRepository: ServerSecurityContextRepository
   ): SecurityWebFilterChain {
 
+    // CSRFの制御の設定
     http.csrf { csrf ->
       csrf.disable()
     }
 
+    // 認証による保護対象とするエンドポイントの設定
     http.authorizeExchange { exchanges ->
-      exchanges.pathMatchers("/**").permitAll()
-      exchanges.pathMatchers("/api/v1/**").permitAll()
-      exchanges.pathMatchers("/api/v1/login").permitAll()
-      exchanges.anyExchange().authenticated()
+      exchanges
+        .anyExchange().permitAll()
+      //exchanges.pathMatchers("/**").permitAll()
+      //exchanges.pathMatchers("/api/v1/**").permitAll()
+      //exchanges.pathMatchers("/api/v1/login").permitAll()
     }
 
-    //http
-    //  .formLogin()
-    //  .loginPage("/api/v1/login")
+    // 認証を行うエンドポイントの設定
+    http
+      .formLogin()
+      .loginPage("/api/v1/login")
 
+    // ログアウトを行うエンドポイントの設定
     http
       .logout()
       .logoutUrl("/api/v1/logout")
 
+    // Basic認証の設定
     http
       .httpBasic()
       .disable()
 
+    // 認証を行うWebFilterの設定
     http.addFilterAt(
       authenticationWebFilter(authenticationManager, serverSecurityContextRepository),
       SecurityWebFiltersOrder.AUTHENTICATION

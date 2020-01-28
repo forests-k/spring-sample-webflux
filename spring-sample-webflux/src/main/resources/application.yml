@@ -33,7 +33,7 @@ spring:
 
 management:
   server:
-    port: 8080
+    port: 8081
   endpoints:
     web:
       base-path: /api/v1/admin
@@ -76,7 +76,7 @@ spring:
 
 management:
   server:
-    port: 8080
+    port: 8082
   endpoints:
     web:
       base-path: /api/v1/admin
@@ -91,4 +91,4 @@ logging:
     root: INFO
 
 server:
-  port: 8080
+  port: 8082

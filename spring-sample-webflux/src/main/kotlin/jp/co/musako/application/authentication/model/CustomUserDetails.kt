@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.*
 import java.io.*
 
 class CustomUserDetails(
-  val user: UsersEntity,
-  val authorities: List<GrantedAuthority>
+  private val user: UsersEntity,
+  private val authorities: List<GrantedAuthority>
 ) : User(
   user.mail,
   user.password,

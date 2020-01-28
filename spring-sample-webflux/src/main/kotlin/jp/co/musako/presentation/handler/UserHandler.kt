@@ -42,12 +42,3 @@ class UserHandler(private val userService: UserService) {
     return ServerResponse.noContent().build()
   }
 }
-
-/**
-request.bodyToMono<UsersEntity>()
-.flatMap { user ->
-ServerResponse.ok()
-.contentType(MediaType.APPLICATION_JSON)
-.body(userService.update(request.pathVariable("id").toLong(), user))
-}.switchIfEmpty(ServerResponse.badRequest().build())
- */

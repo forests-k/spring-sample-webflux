@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.*
 import org.springframework.security.authentication.*
 
 data class Credential(
-  @JsonProperty("mail")
-  val mailAddress: String,
+  @JsonProperty("username")
+  val username: String,
   val password: String
 ) {
-  fun toToken() = UsernamePasswordAuthenticationToken(mailAddress, password)
+  fun toToken() = UsernamePasswordAuthenticationToken(username, password)
 }
